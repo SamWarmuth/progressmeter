@@ -1,0 +1,16 @@
+defaults: &defaults
+ 
+:development:
+  :couchdb:
+    :url: http://localhost:5984/progress_development
+  <<: *defaults
+  
+:test:
+  :couchdb:
+    :url: http://localhost:5984/progress_test
+    <<: *defaults
+
+:production:
+  :couchdb:
+    :url: http://localhost:5984/progress_production
+    <<: *defaults
