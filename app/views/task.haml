@@ -1,0 +1,12 @@
+%h1= @task.name
+
+%p You're at #{@task.current_progress} out of #{@task.finished_value}, which is #{@task.percent_progress}%.
+
+%br
+%br
+%h3 Update Progress
+%form{:action => "/update-progress/#{@task.id}", :method => "POST"}
+  %label Progress (out of #{@task.finished_value})
+  %input{:type => "text", :name => "progress"}
+  %input{:type => "submit", :value => "Update Progress"}
+  

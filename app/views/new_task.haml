@@ -1,0 +1,10 @@
+%form{:action => "/new-task", :method => "POST"}
+  %p
+    %label Name
+    %input{:type => "text", :name => "name"}
+  %p
+    %label Total Progress Required (i.e. 472 for a 472 page book.)
+    %input{:type => "text", :name => "finished_value"}
+  %p
+    %input{:type => "submit", :value => "Create Task"}
+  

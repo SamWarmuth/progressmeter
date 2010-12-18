@@ -1,1 +1,10 @@
-%h1 Hello, World!
+%h1 Tasks!
+
+-Task.all.each do |task|
+  %p
+    %a{:href => "/task/#{task.id}"}= task.name
+    \=>
+    #{task.percent_progress}%
+  
+%p
+  %a{:href => "/new-task"} New Task

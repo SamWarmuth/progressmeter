@@ -1,24 +1,15 @@
-class Broadcast < CouchRest::ExtendedDocument
+class Task < CouchRest::ExtendedDocument
   use_database COUCHDB_SERVER
 
+  property :name
+
   property :date, :default => Proc.new{Time.now.to_i}
-  property :type, :default => "info"
-  property :content
+  property :finished_value
+  property :current_progress
   
-  property :announce_to_new_users, :default => false
   
-  property :creator_id
-  
-  def announce
-    User.all.each do |user|
-      user.broadcast_ids << self.id unless user.broadcast_ids.include?(self.id)
-      user.save
-    end
-  end
-  def retract
-    User.all.each do |user|
-      user.broadcast_ids.delete(self.id)
-      user.save
-    end
+    
+  def percent_progress
+    return (1000*(self.current_progress.to_f)/self.finished_value).floor.to_f/10
   end
 end
