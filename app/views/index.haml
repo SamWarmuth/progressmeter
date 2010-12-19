@@ -5,6 +5,13 @@
     %a{:href => "/task/#{task.id}"}= task.name
     \=>
     #{task.percent_progress}%
+    -twentyfifths = (task.percent_progress/4).floor
+    &nbsp;&nbsp;&nbsp;
+    %code
+      -twentyfifths.times do
+        %b> @
+      -(25 - twentyfifths).times do
+        %b> -
   
 %p
   %a{:href => "/new-task"} New Task
