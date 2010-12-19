@@ -1,18 +1,3 @@
-I called this lazybones because cute names are important in the ruby world. 
+This project comes from wanting a locally-hosted progress manager. It's really basic, but it currently does almost exactly what I'm looking for.
 
-Lazybones = (Monk) skeleton on Couch(db). Or something. Gimme a break.
-
-Unlike the main monk skeleton, I didn't commit the contents of the vendor directory.
-
-Instead, after you check out the skeleton, be sure to use the dep tool to build them.
-
-
-dep vendor --all
-
-
-Also, open config/settings.yml and change the CouchDB database name(s) to reflect your set-up.
-
-TODO, requests for help - stuff I would like to add:
-
-1. A task to do some env/variable injection/interpolation. For example, a tool to inject an app name into the settings.yml file.
-2. Support for memcached out of the box to cache the results of CouchDB lookups.
+Eventually, I might make this a local webapp that syncs with a couch in the cloud to keep it updated....we'll see what happens.

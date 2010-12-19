@@ -23,10 +23,12 @@
         %small Progress
         %br
         %input{:type => "text", :name => "current_progress", :style => 'width: 30px', :value => '0'}
-        %span{:style => "margin: 0 15px;"} out of
+        %span{:style => "margin: 0 5px;"} out of
         %input{:type => "text", :name => "finished_value", :style => 'width: 30px'}
       .two-story
-        %input{:type => "submit", :value => "Create Task", :style => "width: 105px"}
+        %input{:type => "submit", :value => "Create Task", :style => "width: 125px"}
+        
+        
 :javascript
   $(".hover").click(function(){
     $(".update-overlay").hide();
