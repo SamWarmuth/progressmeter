@@ -28,6 +28,7 @@ class Main
     task = Task.get(params[:task_id])
     return 404 if task.nil?
     task.current_progress = params[:progress].to_i
+    return 401 if task.current_progress.nil?
     task.save
     return task.percent_progress.to_s
   end

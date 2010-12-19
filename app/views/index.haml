@@ -2,7 +2,7 @@
   .display.upper
     -Task.all.each do |task|
       .task
-        %a.task-name{:href => "/task/#{task.id}"}= task.name
+        .task-name{:href => "/task/#{task.id}"}= task.name
         
         .progress-bar
           .full-bar{:style => "width: #{task.percent_progress}%"}
