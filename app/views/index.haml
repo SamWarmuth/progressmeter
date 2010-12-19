@@ -1,12 +1,13 @@
 .device
   .display.upper
-    -Task.all.each do |task|
+    -Task.all.find_all{|t| !t.deleted}.each do |task|
       .task
         .task-name{:href => "/task/#{task.id}"}= task.name
         
         .progress-bar
           .full-bar{:style => "width: #{task.percent_progress}%"}
           .hover
+        .delete{:id => task.id}
         .update-overlay
           %form.update-form{:action => "/update-progress", :method => "POST"}
             %input{:type => "hidden", :name => "task_id", :value => task.id}
@@ -30,17 +31,38 @@
         
         
 :javascript
-  $(".hover").click(function(){
-    $(".update-overlay").hide();
-    var currentOverlay = $(this).parent().parent().children(".update-overlay");
-    currentOverlay.fadeIn(300);
-    currentOverlay.find(".progress-field").focus();
-  });
-  $(".update-form").submit(function(){
-    var form = this;
-    $.post("/update-progress", $(this).serialize(), function(data){
-      $(form).parent().parent().find(".full-bar").animate({"width": data+"%"}, 500);
+  $(document).ready(function(){
+  
+    $(".delete").hide();
+    
+    $(".hover").click(function(){
+      $(".update-overlay").hide();
+      var currentOverlay = $(this).parent().parent().children(".update-overlay");
+      currentOverlay.fadeIn(300);
+      currentOverlay.find(".progress-field").focus();
     });
-    $(".update-overlay").fadeOut(100);
-    return false;
+    
+    $(".update-form").submit(function(){
+      var form = this;
+      $.post("/update-progress", $(this).serialize(), function(data){
+        $(form).parent().parent().find(".full-bar").animate({"width": data+"%"}, 500);
+      });
+      $(".update-overlay").fadeOut(100);
+      return false;
+    });
+    
+    $(".task").hover(function(){
+      $(this).find('.delete').fadeIn(50);
+    }, function(){
+      $(this).find('.delete').fadeOut(50);
+    });
+    
+    $(".delete").click(function(){
+      var taskID = $(this).attr("id");
+      $.post("/delete-task/" + taskID);
+      $(this).parent().fadeOut(200);
+    });
+    
+    
   });
+  

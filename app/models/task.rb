@@ -7,6 +7,8 @@ class Task < CouchRest::ExtendedDocument
   property :finished_value
   property :current_progress
   
+  property :deleted, :default => false
+  
   
     
   def percent_progress

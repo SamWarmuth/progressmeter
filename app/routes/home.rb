@@ -32,4 +32,12 @@ class Main
     task.save
     return task.percent_progress.to_s
   end
+  
+  post "/delete-task/:task_id" do
+    task = Task.get(params[:task_id])
+    return 404 if task.nil?
+    task.deleted = true
+    task.save
+    return 200
+  end
 end
