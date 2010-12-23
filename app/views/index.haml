@@ -2,8 +2,14 @@
   .display.upper
     -Task.all.find_all{|t| !t.deleted && !t.completed}.each do |task|
       .task
-        .task-name{:href => "/task/#{task.id}"}= task.name
-        
+        .task-name{:href => "/task/#{task.id}"}
+          = task.name
+          
+        %form.progress-circle
+          %input{:type => "hidden", :name => "task_id", :value => task.id}
+          %input.numerator{:type => 'text', :name => "current_progress", :value => task.current_progress}
+          .divider
+          %input.denominator{:type => 'text', :name => "finished_value",  :value => task.finished_value}
         .progress-bar
           .finished-value{:style => 'display: none'}= task.finished_value
           .full-bar{:style => "width: #{task.percent_progress}%"}
@@ -43,23 +49,7 @@
     $(".delete").hide();
     $(".complete").hide();
     
-    $(".hover").click(function(){
-      $(".update-overlay").hide();
-      var currentOverlay = $(this).parent().parent().children(".update-overlay");
-      currentOverlay.fadeIn(300);
-      currentOverlay.find(".progress-field").focus();
-    });
-    
-    $(".update-form").submit(function(){
-      var form = $(this).serialize();
-      var taskContainer = $(this).parent().parent();
-      var finalValue = parseInt(taskContainer.find(".finished-value").text());
-      var percent = 100*parseInt(taskContainer.find('.progress-field').val())/finalValue
-      taskContainer.find(".full-bar").animate({"width": percent+"%"}, 500);
-      $.post("/update-progress", form);
-      $(".update-overlay").fadeOut(100);
-      return false;
-    });
+
     
     $(".task").hover(function(){
       $(this).find('.delete').fadeIn(50);
@@ -85,6 +75,17 @@
       if (e.keyCode == 27) $(".update-overlay").fadeOut(150);
     });
     
+    $(".numerator").keyup(function(event){
+      updateProgress($(this).parent());
+    });
     
   });
+  function updateProgress(form){
+    var finalValue = parseInt(form.find(".denominator").val());
+    var percent = 100*parseInt(form.find('.numerator').val())/finalValue
+    if (isNaN(percent)) return false;
+    $.post("/update-progress", $(form).serialize());
+
+    form.parent().find(".full-bar").animate({"width": percent+"%"}, 500);
+  }
   
