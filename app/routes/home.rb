@@ -40,4 +40,12 @@ class Main
     task.save
     return 200
   end
+  
+  post "/complete-task/:task_id" do
+    task = Task.get(params[:task_id])
+    return 404 if task.nil?
+    task.completed = true
+    task.save
+    return 200
+  end
 end

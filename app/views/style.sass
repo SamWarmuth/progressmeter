@@ -6,7 +6,7 @@ html, body, div, form, fieldset, legend, label
 
 body
   margin: 10px
-  background: #eee
+  background: #ddd 
 
 table
   border-collapse: collapse
@@ -78,7 +78,7 @@ a
   
   border-radius: 20px
   background: #fff
-  width: 600px
+  width: 620px
   margin: 20px auto
   padding: 10px
   .display
@@ -98,15 +98,16 @@ a
   padding: 5px 3px 1px 3px
   text-align: center
   width: 370px
-  
-.delete
+.icon
   display: inline-block
   vertical-align: text-bottom
   height: 16px
   width: 16px
-  background: url('/images/delete-16.png') no-repeat
   cursor: pointer
   position: relative
   top: 1px
-  
+  &.delete
+    background: url('/images/delete-16.png') no-repeat
+  &.complete
+    background: url('/images/complete-16.png') no-repeat
   

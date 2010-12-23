@@ -4,10 +4,13 @@ class Task < CouchRest::ExtendedDocument
   property :name
 
   property :date, :default => Proc.new{Time.now.to_i}
+  
+  
   property :finished_value
   property :current_progress
   
   property :deleted, :default => false
+  property :completed, :default => false
   
   
     
