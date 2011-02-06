@@ -1,6 +1,6 @@
 .device
   .display.upper
-    -Task.all.find_all{|t| !t.deleted && !t.completed}.each do |task|
+    -Task.all.find_all{|t| !t.deleted && !t.completed}.sort_by{|t| t.date}.reverse.each do |task|
       .task
         .task-name{:href => "/task/#{task.id}"}
           = task.name
@@ -13,7 +13,7 @@
         .progress-bar
           .finished-value{:style => 'display: none'}= task.finished_value
           .full-bar{:style => "width: #{task.percent_progress}%"}
-          .hover
+        
         .icon.complete{:id => "c" + task.id}
         .icon.delete{:id => "d" + task.id}
         .update-overlay
@@ -49,8 +49,6 @@
     $(".delete").hide();
     $(".complete").hide();
     
-
-    
     $(".task").hover(function(){
       $(this).find('.delete').fadeIn(50);
       $(this).find('.complete').fadeIn(50);
@@ -71,11 +69,11 @@
       $(this).parent().fadeOut(200);
     });
     
-    $(document).keyup(function(e){
-      if (e.keyCode == 27) $(".update-overlay").fadeOut(150);
-    });
     
     $(".numerator").keyup(function(event){
+      updateProgress($(this).parent());
+    });
+    $(".denominator").keyup(function(event){
       updateProgress($(this).parent());
     });
     
@@ -84,8 +82,11 @@
     var finalValue = parseInt(form.find(".denominator").val());
     var percent = 100*parseInt(form.find('.numerator').val())/finalValue
     if (isNaN(percent)) return false;
+    if (percent < 0 || percent > 100) return false;
     $.post("/update-progress", $(form).serialize());
-
-    form.parent().find(".full-bar").animate({"width": percent+"%"}, 500);
+    var bar = form.parent().find(".full-bar");
+    bar.stop().animate({"width": percent+"%"}, 500);
+    if (percent == 100) bar.css("background", "#02C252")
+    else bar.css("background", "#02c252 url('/images/stripe2.png')")
   }
   
