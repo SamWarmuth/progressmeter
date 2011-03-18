@@ -15,6 +15,6 @@ class Task < CouchRest::ExtendedDocument
   
     
   def percent_progress
-    return (1000*(self.current_progress.to_f)/self.finished_value).floor.to_f/10
+    return (1000*(self.current_progress.to_f)/(self.finished_value.to_f+0.01)).floor.to_f/10
   end
 end
